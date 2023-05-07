@@ -1,0 +1,71 @@
+CREATE TABLE employees (
+  employee_id INT PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  email VARCHAR(100),
+  phone_number VARCHAR(20),
+  hire_date DATE,
+  job_id VARCHAR(10),
+  salary DECIMAL(8, 2),
+  commission_pct DECIMAL(2, 2),
+  manager_id INT,
+  department_id INT,
+  education_degree_id INT,
+  employment_type VARCHAR(20),
+  employee_status VARCHAR(20),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE education_degrees (
+  education_degree_id INT PRIMARY KEY,
+  degree_name VARCHAR(50)
+);
+
+CREATE TABLE teaching_staff (
+  employee_id INT PRIMARY KEY,
+  teaching_start_date DATE,
+  teaching_end_date DATE,
+  teaching_subject VARCHAR(50),
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+
+CREATE TABLE regular_contract (
+  employee_id INT PRIMARY KEY,
+  contract_start_date DATE,
+  contract_end_date DATE,
+  contract_type VARCHAR(50),
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+
+CREATE TABLE employee_history (
+  employee_history_id INT PRIMARY KEY,
+  employee_id INT,
+  start_date DATE,
+  end_date DATE,
+  job_title VARCHAR(50),
+  department VARCHAR(50),
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
+
+CREATE TABLE roles (
+  role_id INT PRIMARY KEY,
+  role_name VARCHAR(50)
+);
+
+CREATE TABLE employee_roles (
+  employee_role_id INT PRIMARY KEY,
+  employee_id INT,
+  role_id INT,
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+  FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
+
+CREATE TABLE assignments (
+  assignment_id INT PRIMARY KEY,
+  assignment_name VARCHAR(50),
+  employee_id INT,
+  start_date DATE,
+  end_date DATE,
+  FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+);
